@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.env
+
+# Old model (too large)
+diabetes_model.pkl
+
+# IDE
+.vscode/
+.idea/

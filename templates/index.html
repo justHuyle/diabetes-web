@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Diabetes AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="page">
+
+    <!-- HEADER -->
+    <header class="header">
+
+        <div class="brand">
+            <div class="logo">+</div>
+
+            <div>
+                <h1>Diabetes AI</h1>
+                <p>Intelligent Diabetes Screening</p>
+            </div>
+        </div>
+
+        <div class="status">
+            <span class="status-dot"></span>
+            AI MODEL ONLINE
+        </div>
+
+    </header>
+
+
+    <!-- MAIN -->
+    <main class="container">
+
+        <section class="intro">
+
+            <h2>Diabetes Risk Assessment</h2>
+
+            <p>
+                Enter patient information below to receive
+                an AI-based diabetes prediction.
+            </p>
+
+        </section>
+
+
+        <section class="card">
+
+            <div class="card-title">
+
+                <div class="icon">♙</div>
+
+                <div>
+                    <h3>Patient Information</h3>
+                    <p>
+                        Provide the required clinical information
+                    </p>
+                </div>
+
+            </div>
+
+
+            <form id="predictionForm">
+
+                <div class="form-grid">
+
+                    <!-- Gender -->
+                    <div class="field">
+
+                        <label>Gender</label>
+
+                        <select id="gender">
+                            <option value="Female">
+                                Female
+                            </option>
+
+                            <option value="Male">
+                                Male
+                            </option>
+                        </select>
+
+                    </div>
+
+
+                    <!-- Age -->
+                    <div class="field">
+
+                        <label>Age</label>
+
+                        <input
+                            type="number"
+                            id="age"
+                            placeholder="e.g. 45"
+                            min="1"
+                            max="120"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Hypertension -->
+                    <div class="field">
+
+                        <label>Hypertension</label>
+
+                        <select id="hypertension">
+
+                            <option value="0">
+                                No
+                            </option>
+
+                            <option value="1">
+                                Yes
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Heart Disease -->
+                    <div class="field">
+
+                        <label>Heart Disease</label>
+
+                        <select id="heart_disease">
+
+                            <option value="0">
+                                No
+                            </option>
+
+                            <option value="1">
+                                Yes
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Smoking -->
+                    <div class="field">
+
+                        <label>Smoking History</label>
+
+                        <select id="smoking_history">
+
+                            <option value="never">
+                                Never
+                            </option>
+
+                            <option value="former">
+                                Former
+                            </option>
+
+                            <option value="current">
+                                Current
+                            </option>
+
+                            <option value="No Info">
+                                No Information
+                            </option>
+
+                            <option value="not current">
+                                Not Current
+                            </option>
+
+                            <option value="ever">
+                                Ever
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- BMI -->
+                    <div class="field">
+
+                        <label>BMI</label>
+
+                        <input
+                            type="number"
+                            id="bmi"
+                            placeholder="e.g. 24.5"
+                            step="0.1"
+                            min="1"
+                            max="100"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- HbA1c -->
+                    <div class="field">
+
+                        <label>HbA1c Level</label>
+
+                        <input
+                            type="number"
+                            id="HbA1c_level"
+                            placeholder="e.g. 5.5"
+                            step="0.1"
+                            min="1"
+                            max="20"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Blood glucose -->
+                    <div class="field">
+
+                        <label>Blood Glucose Level</label>
+
+                        <input
+                            type="number"
+                            id="blood_glucose_level"
+                            placeholder="e.g. 100"
+                            min="1"
+                            max="500"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="predict-button"
+                    id="predictButton"
+                >
+
+                    <span>Run Diabetes Analysis</span>
+
+                    <span class="arrow">→</span>
+
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- RESULT -->
+
+        <section
+            class="result-card hidden"
+            id="resultCard"
+        >
+
+            <div class="result-header">
+
+                <div>
+
+                    <p class="result-label">
+                        AI PREDICTION RESULT
+                    </p>
+
+                    <h2 id="resultTitle">
+                        Non-diabetic
+                    </h2>
+
+                </div>
+
+                <div
+                    class="result-icon"
+                    id="resultIcon"
+                >
+                    ✓
+                </div>
+
+            </div>
+
+
+            <div class="probability">
+
+                <div class="probability-top">
+
+                    <span>
+                        Diabetes probability
+                    </span>
+
+                    <strong id="probabilityText">
+                        0%
+                    </strong>
+
+                </div>
+
+                <div class="progress">
+
+                    <div
+                        class="progress-bar"
+                        id="progressBar"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="result-message"
+                 id="resultMessage">
+
+                The model predicts a lower probability
+                of diabetes for this input.
+
+            </div>
+
+
+            <button
+                class="secondary-button"
+                onclick="resetForm()"
+            >
+
+                Analyze Another Patient
+
+            </button>
+
+        </section>
+
+
+        <div class="disclaimer">
+
+            <strong>Important:</strong>
+
+            This system provides an AI-based prediction
+            for educational and demonstration purposes only.
+            It is not a medical diagnosis.
+
+        </div>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            Diabetes AI • Traditional Machine Learning
+            Application
+        </p>
+
+    </footer>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='script.js') }}">
+</script>
+
+</body>
+
+</html>
